@@ -17,16 +17,15 @@ func map<U>(transform: (T) -> U) -> Array<U>
 ```swift
 func arrayByEnumeratingObjectsUsingBlock(_ block: (AnyObject!) -> [AnyObject]
 ```
-arrayByE
 
 ##### TODO: Application wide methods
 
 ### Initializer
-In objc there was a good convention that in init method one should only have these parameters that can not be ommited while creating an object (it doesn't make sense to create an object without setting one of them). Any other configurations that you could either have a default value for or it is an optional property - should be moved to @property and to be set after initializing an object (if needed).
+In objc there was a good convention that in init method one should only have those parameters that couldn't be ommited while creating an object (it wouldn't make sense to create the object without setting one of them). Any other configurations that you could either have a default value for or it is an optional property - should be moved to @property and to be set right after initializing an object (when desired).
 
-In swift it is not the case. We do have optionals, we still have parameter labels and...
+In swift it is not the case. We do have optionals, we still have parameter labels and you can also set default values to parameters.
 
-> [...] you can set default values to parameters. So you could define the initializer like so:
+> [...] So you could define the initializer like so:
 
 ```swift
 init(contentRect: NSRect, styleMask: NSWindowMask = NSWindowMask.Titled, backing: NSBackingStoreType = .Buffered, defer: Bool = false, screen: NSScreen? = nil)

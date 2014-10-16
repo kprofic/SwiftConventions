@@ -4,6 +4,11 @@ This document is an attempt to collect and describe programming approaches that 
 ###Contributing 
 To contribute: fork this project, edit and create a pull request.
 
+#### General Swift Conventions
+* use Value Types to represent data,
+* use classes to describe logic
+* laverage Touples to return more than just one value from a method (eg. result & error)
+
 ### Methods
 There is a lots of new framework/language methods in Swift that are extreamly short and at a first glance they are not self explanatory as they would in objc.
 A good convention is to have short clear function/method names for generic components that you use quite often and a bit more verbose self explanatory signatures for application wide methods.
@@ -36,3 +41,20 @@ init(contentRect: NSRect, styleMask: NSWindowMask = NSWindowMask.Titled, backing
 NSWindow(contentRect: frame)
 ```
 > — [radex.io](http://radex.io/swift/methods/)
+
+#### Optionals
+##### Naming (TODO: prefix/suffix)
+It sounds like a good idea to give a variable that is an Optional a name with some sort of prefix that would explicitely say it may contain nil eg.: "optionalFullName".
+
+##### Binding
+It looks better when Optional is binded using "if let" syntax rather than with Forced Unwrapping. This way you can in just one step unwrap the value and do something if it's not nil:
+```swift
+if let a = optionalVal  {
+    // a contains unwrapped value from optional
+}
+```
+
+instead of:
+```swift
+let a = optionalVal!
+```

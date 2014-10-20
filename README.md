@@ -43,8 +43,12 @@ NSWindow(contentRect: frame)
 > — [radex.io](http://radex.io/swift/methods/)
 
 #### Optionals
-##### Naming (TODO: prefix/suffix)
-It sounds like a good idea to give a variable that is an Optional a name with some sort of prefix that would explicitly say it may contain nil eg.: "optionalFullName".
+Optionals are optional in Swift. In Objective-C it was a default, you were expected to handle nil values at any time. If this is no longer the case in Swift (nil is not a first-class construct), we shouldn't use them everywhere in Swift code as we had no choice. If we do then we loose its true meaning. Where shall we use optionals then?
+
+* as a possible result of a methods that finds result in a collection when there is no result.
+* to mark an end of sequence
+
+It sounds like a good idea to give a variable that is an Optional a name with some sort of prefix/suffix that would explicitly say it may contain nil eg.: "optionalFullName".
 
 ##### Binding
 It looks better when Optional is binded using "if let" syntax rather than with Forced Unwrapping. This way you can in just one step unwrap the value and do something when the value is not missing:
@@ -58,3 +62,59 @@ instead of:
 ```swift
 let a = optionalVal!
 ```
+
+On the other hand if you deside not to prefix variable name with "optional" you may find this kind of unwrapping cool:
+```swift
+if let x = x { // rebinding to the same identifier
+ ... 
+} 
+```
+
+##### Implicit unwrapping
+IBOutlets are great model to use implicitly unwrapped optionals, they are conneced before "awakeFromNib" and we just use them as they weren't optionals since that time.
+
+[http://nomothetis.svbtle.com/optionals-if-we-must](http://nomothetis.svbtle.com/optionals-if-we-must)
+[http://airspeedvelocity.net/2014/08/08/the-case-against-making-array-subscript-optional/](http://airspeedvelocity.net/2014/08/08/the-case-against-making-array-subscript-optional/)
+
+#### Touples
+Can use switch statement together with touples to reduce number of "if else if" constructs eg.:
+```swift
+var error: NSError?
+let json: AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions(0), error: &error)
+
+switch (json, error) {
+case (_, .Some(let error)): return .Failure(error)
+case (.Some(let json), _):  return .Success(json)
+default :
+}
+```
+
+#### Prefix, Infix, Suffix operators
+These tools shouldnt be overused. Usually it ends up with less readable code for the begginers. However some generic solutions like simplified pattern matching are good candidates where prefix, infix or suffix operator will be an advantage
+
+Consider writing
+```swift
+let answer = "-v" =~ /^(?:-[a-z]|--[a-z]\S*)$/
+```
+
+instead of:
+```swift
+let regex = NSRegularExpression(pattern:"^(?:-[a-z]|--[a-z]\\S*)$" 
+                                options:nil,
+                                  error:nil)
+
+let match = regex.numberOfMatchesInString("-v", 
+               options:nil
+                 range:NSRange(location:0,
+                                 length:countElements(testString))
+
+let answer = match > 0
+```
+
+[http://nomothetis.svbtle.com/clean-regular-expressions-using-conversions](http://nomothetis.svbtle.com/clean-regular-expressions-using-conversions)
+
+#### Error handling
+###### TODO
+http://nomothetis.svbtle.com/error-handling-in-swift
+nested (result, error) results 
+http://robnapier.net/functional-wish-fulfillment
